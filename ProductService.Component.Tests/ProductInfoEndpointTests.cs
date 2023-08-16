@@ -49,7 +49,6 @@ namespace ProductService.Component.Tests
 
 			// act
 			var response = await _httpClient.GetFromJsonAsync<ProductInfo>($"/product/info/{productId}");
-			await Task.Delay(3300);
 
 			// assert
 			Assert.NotNull(response);
