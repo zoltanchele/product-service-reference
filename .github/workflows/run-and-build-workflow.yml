@@ -1,0 +1,24 @@
+name: Build & Test Workflow
+on: [workflow_dispatch, push]
+jobs:
+    build-and-test:
+        runs-on: ubuntu-latest
+        services:
+            mountebank:
+               image: bbyars/mountebank:2.8.2
+               ports:
+                 - 2525:2525
+                 - 4545:4545
+        steps:
+            - name: Checkout Source
+              uses: actions/checkout@v3
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v3
+              with:
+                dotnet-version: '7.0.x'
+            - name: install-dependencies
+              run: dotnet restore
+            - name: Build Soution
+              run: dotnet build --configuration Release --no-restore
+            - name: Test
+              run: dotnet test --no-restore --verbosity minimal
